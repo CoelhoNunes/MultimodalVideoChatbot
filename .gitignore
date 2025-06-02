@@ -1,0 +1,26 @@
+# Visual Studio Code settings
+.vscode/
+*.code-workspace
+
+# Build output
+/build/
+CMakeCache.txt
+CMakeFiles/
+*.obj
+*.o
+*.exe
+*.dll
+*.log
+
+# ONNX Runtime caches (if any)
+*.ort
+
+# Qt temp files
+*.user
+*.pro.user
+*.qrc.cpp
+
+# Python virtualenv for Gradio demo
+/gradio_demo/venv/
+__pycache__/
+*.pyc

@@ -1,0 +1,4 @@
+[
+  { "video": "test_video.mp4", "timestamp": "00:00:05", "text": "A person walks into frame" },
+  { "video": "test_video.mp4", "timestamp": "00:00:10", "text": "They pick up an object" }
+]
