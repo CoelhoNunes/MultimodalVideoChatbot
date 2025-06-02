@@ -32,4 +32,4 @@ with gr.Blocks() as demo:
         chat_btn = gr.Button("Ask")
         chat_btn.click(fn=chat_interface, inputs=txt_in, outputs=[resp_out, match_out])
 
-demo.launch(server_name="0.0.0.0", server_port=7860)
+demo.launch(server_name="0.0.0.0", server_port=7860, share=True)
