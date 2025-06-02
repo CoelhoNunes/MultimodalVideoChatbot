@@ -2,7 +2,7 @@
 .vscode/
 *.code-workspace
 
-# Build output
+# Build outputs
 /build/
 CMakeCache.txt
 CMakeFiles/
