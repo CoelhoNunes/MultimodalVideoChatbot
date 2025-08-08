@@ -146,7 +146,7 @@ python app.py
 
 4. **Video Captioning Tab**: Upload a video file, select your desired caption language, and generate real, word-for-word captions. If the language is not English, captions are translated using OpenAI GPT.
 
-### Command Line Tools
-
-#### Video Captioning
 ```
+## Avatar Credits
+
+The avatar used in this project was created using [HeyGen](https://app.heygen.com/home).
