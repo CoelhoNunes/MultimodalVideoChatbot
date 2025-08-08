@@ -1,5 +1,7 @@
 # Multimodal Video Captioning & Multilingual Chatbot
 
+<video src="MULTILINGUAL_CHATBOT.mp4" autoplay loop muted width="600"></video>
+
 A desktop application for video captioning and multilingual chat with real-time video analysis capabilities.
 
 ## Features
@@ -147,5 +149,6 @@ python app.py
 4. **Video Captioning Tab**: Upload a video file, select your desired caption language, and generate real, word-for-word captions. If the language is not English, captions are translated using OpenAI GPT.
 
 ## Avatar Credits
+
 
 The avatar used in this project was created using [HeyGen](https://app.heygen.com/home).
