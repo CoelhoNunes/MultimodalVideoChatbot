@@ -82,10 +82,10 @@ def generate_mock_captions(video_path):
     
     return mock_captions
 
-def query_chatbot(text_input):
-    """Query the chatbot with text input"""
+def query_chatbot(text_input, language="English"):
+    """Query the chatbot with text input and desired response language"""
     if OPENAI_API_KEY:
-        prompt = f"You are a multilingual video chatbot. Answer the following query: {text_input}"
+        prompt = f"You are a multilingual video chatbot. Answer the following query in {language}: {text_input}"
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
@@ -100,10 +100,10 @@ def query_chatbot(text_input):
     try:
         # Prepare request payload
         payload = {
-            "type": "query", 
-            "text": text_input
+            "type": "query",
+            "text": text_input,
+            "language": language
         }
-        
         # Send request to server
         response = requests.post(
             f"{SERVER_URL}/query",
@@ -111,14 +111,12 @@ def query_chatbot(text_input):
             json=payload,
             timeout=30
         )
-        
         if response.status_code == 200:
             data = response.json()
             return data.get("response", "No response received"), data.get("matches", [])
         else:
             print(f"Server error: {response.status_code}")
             return generate_mock_response(text_input), []
-            
     except requests.exceptions.RequestException as e:
         print(f"Network error: {e}")
         return generate_mock_response(text_input), []

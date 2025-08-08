@@ -20,10 +20,37 @@ CMakeFiles/
 *.pro.user
 *.qrc.cpp
 
-# Python virtualenv for Gradio demo
-/gradio_demo/venv/
+# Python virtual environments
+venv/
+env/
+.venv/
+.env/
+gradio_demo/venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
 
 # Ignore environment variable files
 .env
+.env.local
+.env.*.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
