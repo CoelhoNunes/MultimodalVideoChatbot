@@ -4,6 +4,7 @@
     <img src="MULTILINGUAL_CHATBOT.gif" alt="Multilingual Chatbot Demo" width="800">
   </a>
 </p>
+[![Multilingual Chatbot Demo](MULTILINGUAL_CHATBOT.gif)](https://github.com/<USER>/<REPO>/raw/main/MULTILINGUAL_CHATBOT.mp4)
 
 A desktop application for video captioning and multilingual chat with real-time video analysis capabilities.
 
@@ -155,6 +156,7 @@ python app.py
 
 
 The avatar used in this project was created using [HeyGen](https://app.heygen.com/home).
+
 
 
 
