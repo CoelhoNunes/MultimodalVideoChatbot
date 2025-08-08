@@ -60,3 +60,13 @@ add_executable(captioner
 target_link_libraries(captioner
     PRIVATE captioning embedding faiss ONNXRuntime::onnxruntime
 )
+
+add_executable(websocket_server
+    server/main.cpp
+    server/WebSocketServer.cpp
+    server/WebSocketServer.h
+)
+
+target_link_libraries(websocket_server
+    PRIVATE server Qt5::Core Qt5::Network Qt5::WebSockets
+)

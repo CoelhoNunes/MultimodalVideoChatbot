@@ -31,3 +31,5 @@ RUN mkdir build && cd build && cmake -DUSE_CUDA=OFF -DBUILD_TESTS=OFF .. && make
 
 EXPOSE 5000
 ENTRYPOINT ["./build/server/WebSocketServer"]
+
+COPY .env /app/.env

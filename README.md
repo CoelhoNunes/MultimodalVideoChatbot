@@ -1,66 +1,152 @@
-# 🎥🤖 Multimodal Video Captioning & Multilingual Chatbot
+# Multimodal Video Captioning & Multilingual Chatbot
 
-> A high-performance C++ application that generates time‐aligned captions for videos, indexes them for semantic search, and exposes a real-time multilingual chatbot interface for querying your entire video archive. Built with FFmpeg, ONNX Runtime, FAISS, fastText, Boost.Asio, and Qt—plus a shareable Gradio demo.
+A desktop application for video captioning and multilingual chat with real-time video analysis capabilities.
 
----
+## Features
 
-## 🚀 Features
+- **Video Captioning**: Generate real, word-for-word captions for video files using Whisper (speech-to-text) and translate them to your selected language using OpenAI GPT
+- **Multilingual Chat**: Support for multiple languages (English, Spanish, French, German, Italian, Portuguese, Russian, Chinese, Japanese, Korean)
+- **Real-time Communication**: WebSocket-based communication between GUI and backend
+- **Video Timeline**: Interactive timeline with clickable captions
+- **Search & Retrieval**: Search through video content using natural language queries
+- **Gradio Demo**: Web-based interface for easy testing
 
-- **Frame Extraction & Captioning**  
-  - Extracts frames from videos at configurable FPS using **FFmpeg C API**.  
-  - Runs a Hugging Face “VideoMAE encoder + BART decoder” model (exported to **ONNX Runtime**) to generate captions every *N* seconds.  
-  - Preprocesses and batches frames efficiently, with optional **GPU (CUDA)** acceleration.
+## Prerequisites
 
-- **Caption Embedding & FAISS Indexing**  
-  - Embeds each generated caption using a Hugging Face **SentenceTransformer** (exported to ONNX).  
-  - Builds a FAISS index (HNSW + IVF+PQ quantization) for fast, approximate nearest‐neighbor search over thousands of captions.  
+### System Requirements
+- **OS**: Linux, macOS, or Windows
+- **C++ Compiler**: GCC 7+ or Clang 6+ (Linux/macOS), Visual Studio 2019+ (Windows)
+- **Python**: 3.8+
+- **CMake**: 3.16+
 
-- **Multilingual Chatbot‐Driven Search**  
-  - Detects user language with **fastText** (176-language model).  
-  - If non‐English, translates queries to English via **Hugging Face Translation API** (libcurl).  
-  - Retrieves top‐K matching captions (video + timestamp) via FAISS.  
-  - Constructs a context prompt and performs streaming conversational inference using a Hugging Face **DialoGPT/GPT-Neo** ONNX model.  
-  - Translates the chatbot’s English response back into the user’s language.  
-  - Provides a rule‐based fallback message when APIs are unavailable.  
-  - Enforces API rate‐limiting (max 5 requests/sec) to stay within quotas.
+### Dependencies
 
-- **Front‐End Demos**  
-  - **Qt Desktop GUI**: Two‐tab interface (“Video Captioning” & “Chat & Search”) with:  
-    - Directory selection, file‐by‐file progress bar, and a clickable timeline of captions.  
-    - Embedded QVideoWidget video player that seeks to any caption timestamp.  
-    - Chat input area (any language) with streaming responses and a list of clickable “video @ timestamp” matches.  
-  - **Gradio Web Demo**: Rapid, shareable interface (Python “glue” → C++ backend) featuring:  
-    1. Video uploader → “Generate Captions” → timeline viewer in HTML.  
-    2. Multilingual chat box → “Ask” → chatbot response + clickable video‐segment links.  
-    - Deployable on Hugging Face Spaces with a single `app.py`.
+#### C++ Dependencies
+- **Qt5**: Core, Widgets, Multimedia, Network, WebSockets
+- **FFmpeg**: Video processing
+- **ONNX Runtime**: AI model inference
+- **FAISS**: Vector similarity search
+- **fastText**: Language detection
+- **Boost**: Asio for networking
+- **Google Test**: Unit testing
 
-- **Testing & Evaluation**  
-  - **Google Test** integration:  
-    - Verify caption generation against a short test video.  
-    - Confirm FAISS retrieval correctness on synthetic embeddings.  
-    - Validate context‐prompt formatting.  
-  - **Benchmark Scripts**:  
-    - `benchmark_captions.sh`: Compare GPU vs. CPU caption‐generation performance (avg FPS, total time).  
-    - `benchmark_search.sh`: Measure end‐to‐end chat query latency (language detection, translation, FAISS, inference, reverse translation).  
-  - **Caption Quality Metrics**: Python script to compute **BLEU** & **CIDEr** against a held‐out ground truth.  
-  - **Multilingual Correctness**: JSON‐driven tests for equivalent queries in English, Spanish, and Mandarin (precision@K).
+#### Python Dependencies
+- **Gradio**: Web interface
+- **Requests**: HTTP client
+- **NumPy**: Numerical computing
+- **OpenAI**: GPT-based translation and chatbot
+- **openai-whisper**: Speech-to-text transcription
+- **ffmpeg**: Audio extraction from video (system dependency)
 
-- **Docker & CI**  
-  - **Dockerfile.server**: Ubuntu 22.04 image with FFmpeg, ONNX Runtime, FAISS, fastText—builds and runs the WebSocket server.  
-  - **Dockerfile.gui**: Ubuntu 22.04 image configured to build and run the Qt GUI (X11 forwarding or VNC/XPRA).  
-  - **GitHub Actions CI**:  
-    - Builds (CPU mode, tests ON) and runs `ctest`.  
-    - Builds/pushes both server and GUI Docker images.  
+## Installation
 
----
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd MultimodalVideoChatbot
+```
 
-## 🔧 Prerequisites
+### 2. Install System Dependencies
 
-1. **System Dependencies** (Ubuntu 22.04 example)  
-   ```bash
-   sudo apt-get update
-   sudo apt-get install -y \
-       build-essential cmake git wget unzip \
-       ffmpeg libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
-       libboost-all-dev qtbase5-dev qttools5-dev libqt5multimedia5-plugins libqt5multimediawidgets5 \
-       python3 python3-pip curl
+#### Ubuntu/Debian
+```bash
+sudo apt update
+sudo apt install build-essential cmake qt5-default libavformat-dev libavcodec-dev libswscale-dev libavutil-dev libgtest-dev nlohmann-json3-dev
+```
+
+#### macOS
+```bash
+brew install cmake qt5 ffmpeg onnxruntime faiss-cpu fasttext googletest nlohmann-json
+```
+
+#### Windows
+Install Visual Studio 2019 or later with C++ development tools, then install vcpkg and the required packages.
+
+### 3. Install Python Dependencies
+```bash
+pip install -r gradio_demo/requirements.txt
+pip install openai-whisper
+```
+
+### 4. Install FFmpeg (for audio extraction)
+#### Ubuntu/Debian
+```bash
+sudo apt-get update && sudo apt-get install ffmpeg
+```
+#### macOS
+```bash
+brew install ffmpeg
+```
+#### Windows
+Download from https://ffmpeg.org/download.html and add to PATH.
+
+### 5. Build the Project
+```bash
+chmod +x scripts/build.sh
+./scripts/build.sh
+```
+
+## Configuration
+
+### 1. OpenAI API Key (Required for translation)
+Create a `.env` file in the project root with:
+```
+OPENAI_API_KEY=your_openai_key_here
+```
+
+### 2. Hugging Face API Token (Optional)
+For enhanced translation capabilities, set your Hugging Face API token:
+
+```bash
+export HUGGINGFACE_API_TOKEN="your_token_here"
+```
+
+You can get a free token from [Hugging Face](https://huggingface.co/settings/tokens).
+
+### 3. Model Files (Optional)
+For production use, you'll need to provide ONNX model files:
+- `models/video_captioning.onnx`: Video captioning model
+- `models/text_encoder.onnx`: Text embedding model
+- `models/conversational_model.onnx`: Conversational AI model
+
+Place these files in the `models/` directory.
+
+## Usage
+
+### GUI Application
+
+1. **Start the WebSocket Server**:
+```bash
+./build/websocket_server
+```
+
+2. **Launch the GUI Application**:
+```bash
+./build/VideoChatbot
+```
+
+3. **Using the Application**:
+   - **Video Captioning Tab**: Upload a video file and generate captions
+   - **Chat & Search Tab**: Ask questions about the video content in any supported language
+
+### Gradio Web Demo
+
+1. **Start the WebSocket Server**:
+```bash
+./build/websocket_server
+```
+
+2. **Launch the Gradio Demo**:
+```bash
+cd gradio_demo
+python app.py
+```
+
+3. **Access the Web Interface**: Open your browser to `http://localhost:7860`
+
+4. **Video Captioning Tab**: Upload a video file, select your desired caption language, and generate real, word-for-word captions. If the language is not English, captions are translated using OpenAI GPT.
+
+### Command Line Tools
+
+#### Video Captioning
+```

@@ -2,17 +2,24 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
-// Represents a generated caption with timestamp
 struct CaptionResult {
-    std::string timestamp;
+    double timestamp;
     std::string text;
+    float confidence;
 };
 
-// Captioner handles video frame extraction and caption generation
 class Captioner {
 public:
-    // Generate captions for a given video file path
-    // use_gpu: whether to use GPU for ONNX Runtime
-    static std::vector<CaptionResult> generateCaptions(const std::string &videoPath, bool use_gpu);
+    Captioner();
+    ~Captioner();
+    
+    std::vector<CaptionResult> generateCaptions(const std::string& videoPath);
+
+private:
+    std::string runInference(const std::vector<float>& inputTensor);
+    
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
 };

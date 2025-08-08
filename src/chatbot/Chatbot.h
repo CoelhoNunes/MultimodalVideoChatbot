@@ -2,19 +2,39 @@
 
 #include <string>
 #include <vector>
-#include "Captioner.h"
+#include <memory>
 
-// Represents a match result from FAISS
 struct MatchResult {
     std::string video;
-    std::string timestamp;
+    double timestamp;
     std::string caption;
+    float similarity;
 };
+
+struct ChatResponse {
+    std::string text;
+    std::vector<MatchResult> matches;
+    std::string detectedLanguage;
+};
+
+// Forward declaration
+struct CaptionResult;
 
 class Chatbot {
 public:
-    // Build context prompt from top-k matches
-    static std::string buildContextPrompt(const std::vector<MatchResult> &matches);
-    // Process a user query: language detection, translation, embedding, retrieval, conversational inference, reverse translation
-    static std::pair<std::string, std::vector<MatchResult>> processQuery(const std::string &text);
+    Chatbot();
+    ~Chatbot();
+    
+    ChatResponse processQuery(const std::string& query, const std::vector<CaptionResult>& captions);
+
+private:
+    std::string detectLanguage(const std::string& text);
+    std::string translateToEnglish(const std::string& text, const std::string& sourceLang);
+    std::string translateFromEnglish(const std::string& text, const std::string& targetLang);
+    std::vector<MatchResult> searchSimilarCaptions(const std::string& query, const std::vector<CaptionResult>& captions, int topK = 5);
+    std::string generateResponse(const std::string& query, const std::vector<MatchResult>& matches);
+    std::vector<int64_t> tokenize(const std::string& text);
+    
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
 };

@@ -3,23 +3,45 @@
 #include <QWidget>
 #include <QTextEdit>
 #include <QPushButton>
-#include <QTextBrowser>
 #include <QListWidget>
 #include <QWebSocket>
+#include <QString>
+#include <vector>
+
+// Forward declaration
+struct CaptionResult;
 
 class ChatTab : public QWidget {
     Q_OBJECT
+
 public:
-    ChatTab(QWidget *parent = nullptr);
+    explicit ChatTab(QWidget* parent = nullptr);
+    ~ChatTab();
+    
+    void setCaptions(const std::vector<CaptionResult>& captions);
+    const std::vector<CaptionResult>& getCaptions() const;
+
+signals:
+    void seekVideo(const QString& video, double timestamp);
+
 private slots:
-    void onSendMessage();
-    void onWebSocketMessage(const QString &message);
-    void onMatchItemDoubleClicked(QListWidgetItem *item);
+    void sendQuery();
+    void onTextChanged();
+    void onMatchItemClicked(QListWidgetItem* item);
+    void onWebSocketConnected();
+    void onWebSocketDisconnected();
+    void onWebSocketMessageReceived(const QString& message);
+
 private:
-    QTextEdit *inputEdit;
-    QPushButton *sendButton;
-    QTextBrowser *responseBrowser;
-    QListWidget *matchesList;
-    QWebSocket *socket;
-    // TODO: Map list items to (video, timestamp) pairs
+    void setupUI();
+    void setupWebSocket();
+    void handleChatResponse(const QJsonObject& response);
+    
+    QTextEdit* queryInput_;
+    QPushButton* sendButton_;
+    QTextEdit* responseBrowser_;
+    QListWidget* matchesList_;
+    QWebSocket* webSocket_;
+    
+    std::vector<CaptionResult> captions_;
 };

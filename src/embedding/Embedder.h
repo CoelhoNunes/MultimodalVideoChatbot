@@ -2,14 +2,18 @@
 
 #include <string>
 #include <vector>
-
-// Represents an embedding vector
-using Embedding = std::vector<float>;
+#include <memory>
 
 class Embedder {
 public:
-    // Initialize the text encoder (ONNX) and tokenizer
-    static void initialize(const std::string &modelPath, const std::string &vocabPath, const std::string &mergePath);
-    // Embed a single caption string
-    static Embedding embedCaption(const std::string &caption);
+    Embedder();
+    ~Embedder();
+    
+    std::vector<float> embedText(const std::string& text);
+
+private:
+    std::vector<int64_t> tokenize(const std::string& text);
+    
+    class Impl;
+    std::unique_ptr<Impl> pImpl;
 };
