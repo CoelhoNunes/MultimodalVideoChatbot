@@ -1,10 +1,5 @@
 # Multimodal Video Captioning & Multilingual Chatbot
 
-<p align="center">
-  <img src="MULTILINGUAL_CHATBOT.gif" alt="Multilingual Chatbot Demo" width="800">
-</p>
-
-
 A desktop application for video captioning and multilingual chat with real-time video analysis capabilities.
 
 ## Features
@@ -155,4 +150,5 @@ python app.py
 
 
 The avatar used in this project was created using [HeyGen](https://app.heygen.com/home).
+
 
