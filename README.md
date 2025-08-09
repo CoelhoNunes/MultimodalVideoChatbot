@@ -5,6 +5,9 @@
   </a>
 </p>
 
+https://github.com/CoelhoNunes/MultimodalVideoChatbot/blob/main/MULTILINGUAL_CHATBOT.mp4
+
+
 A desktop application for video captioning and multilingual chat with real-time video analysis capabilities.
 
 ## Features
@@ -155,6 +158,7 @@ python app.py
 
 
 The avatar used in this project was created using [HeyGen](https://app.heygen.com/home).
+
 
 
 
