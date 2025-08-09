@@ -1,7 +1,7 @@
 # Multimodal Video Captioning & Multilingual Chatbot
 <p align="center">
-  <a href="MULTILINGUAL_CHATBOT.mp4">
-    <img src=https://github.com/CoelhoNunes/MultimodalVideoChatbot/blob/main/MULTILINGUAL_CHATBOT.mp4 width="800">
+  <a href="https://github.com/CoelhoNunes/MultimodalVideoChatbot/raw/main/MULTILINGUAL_CHATBOT.mp4">
+    <img src="MULTILINGUAL_CHATBOT.gif" alt="Watch full demo" width="800">
   </a>
 </p>
 
@@ -156,6 +156,7 @@ python app.py
 
 
 The avatar used in this project was created using [HeyGen](https://app.heygen.com/home).
+
 
 
 
